@@ -1,0 +1,5 @@
+{
+  "name": "GemCode Assistant",
+  "description": "A high-reasoning AI coding assistant that imports git repositories and local files for deep analysis and export.",
+  "requestFramePermissions": []
+}
