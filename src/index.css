@@ -8,36 +8,72 @@
 
 @layer base {
   body {
-    @apply bg-[#E4E3E0] text-[#141414] font-sans;
+    @apply bg-[#E4E3E0] text-[#141414] font-sans antialiased selection:bg-[#141414] selection:text-[#E4E3E0];
   }
 }
 
+/* Custom Scrollbar for sleek technical look */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #14141440;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #14141480;
+}
+
 .data-row {
-  @apply border-b border-[#141414] transition-colors duration-200;
+  @apply border-b border-[#141414]/10 transition-all duration-200;
 }
 
 .data-row:hover {
+  @apply bg-[#141414]/5;
+}
+
+.data-row.active {
   @apply bg-[#141414] text-[#E4E3E0];
 }
 
 .col-header {
   font-family: 'Georgia', serif;
-  @apply italic text-[11px] opacity-50 uppercase tracking-wider;
+  @apply italic text-[11px] opacity-60 uppercase tracking-widest;
 }
 
 .markdown-body {
-  @apply text-sm leading-relaxed;
+  @apply text-sm leading-relaxed space-y-3;
 }
 
 .markdown-body p {
-  @apply mb-4;
+  @apply mb-2;
 }
 
 .markdown-body code {
-  @apply bg-black/5 px-1 rounded font-mono text-xs;
+  @apply bg-[#141414]/10 px-1.5 py-0.5 rounded font-mono text-[11px];
 }
 
 .markdown-body pre {
-  @apply bg-black/5 p-4 rounded-lg overflow-x-auto mb-4;
+  @apply bg-[#141414] text-[#E4E3E0] p-4 rounded-lg overflow-x-auto my-4 shadow-inner;
+}
+
+.markdown-body pre code {
+  @apply bg-transparent p-0 text-[#E4E3E0] text-[12px];
+}
+
+.markdown-body ul {
+  @apply list-disc list-inside space-y-1;
+}
+
+.markdown-body ol {
+  @apply list-decimal list-inside space-y-1;
+}
+
+.markdown-body a {
+  @apply underline underline-offset-2 hover:text-blue-600 transition-colors;
 }
 
