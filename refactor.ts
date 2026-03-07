@@ -1,0 +1,10 @@
+import fs from 'fs';
+let content = fs.readFileSync('src/App.tsx', 'utf-8');
+content = content.replace(/bg-\[\#E4E3E0\]/g, 'bg-[var(--bg-color)]');
+content = content.replace(/text-\[\#141414\]/g, 'text-[var(--text-color)]');
+content = content.replace(/border-\[\#141414\]/g, 'border-[var(--border-color)]');
+content = content.replace(/bg-\[\#DCDAD7\]/g, 'bg-[var(--surface-color)]');
+content = content.replace(/bg-\[\#141414\]/g, 'bg-[var(--primary-bg)]');
+content = content.replace(/text-\[\#E4E3E0\]/g, 'text-[var(--primary-text)]');
+content = content.replace(/ring-\[\#141414\]/g, 'ring-[var(--border-color)]');
+fs.writeFileSync('src/App.tsx', content);

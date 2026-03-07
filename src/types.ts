@@ -4,6 +4,7 @@ export interface FileNode {
   content?: string;
   type: 'file' | 'dir';
   children?: FileNode[];
+  gitStatus?: 'modified' | 'untracked' | 'unmodified';
 }
 
 export interface ChatMessage {

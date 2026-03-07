@@ -6,6 +6,33 @@
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
+:root {
+  --bg-color: #E4E3E0;
+  --text-color: #141414;
+  --border-color: #141414;
+  --surface-color: #DCDAD7;
+  --primary-bg: #141414;
+  --primary-text: #E4E3E0;
+}
+
+[data-theme="dark"] {
+  --bg-color: #0a0a0a;
+  --text-color: #e5e5e5;
+  --border-color: #333333;
+  --surface-color: #141414;
+  --primary-bg: #e5e5e5;
+  --primary-text: #0a0a0a;
+}
+
+[data-theme="colorful"] {
+  --bg-color: #1e1b4b;
+  --text-color: #f3e8ff;
+  --border-color: #4c1d95;
+  --surface-color: #2e1065;
+  --primary-bg: #8b5cf6;
+  --primary-text: #ffffff;
+}
+
 @layer base {
   body {
     @apply bg-[#E4E3E0] text-[#141414] font-sans antialiased selection:bg-[#141414] selection:text-[#E4E3E0];

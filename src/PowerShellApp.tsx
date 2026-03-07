@@ -1,8 +1,3 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { 
   Github, 
@@ -49,7 +44,7 @@ const MAX_FILE_SIZE = 500 * 1024; // 500KB
 const MAX_REPO_FILES = 100;
 const BINARY_EXTS = ['png', 'jpg', 'jpeg', 'gif', 'ico', 'pdf', 'zip', 'tar', 'gz', 'mp4', 'mp3', 'woff', 'woff2', 'ttf', 'eot'];
 
-export default function App() {
+export default function PowerShellApp() {
   const [gitUrl, setGitUrl] = useState('');
   const [files, setFiles] = useState<FileNode[]>(() => {
     try { const s = localStorage.getItem('gemcode_workspace'); return s ? JSON.parse(s).files || [] : []; } catch(e) { return []; }
@@ -509,23 +504,23 @@ export default function App() {
               <div 
                 className={cn(
                   "data-row flex flex-col py-1.5 px-4 cursor-pointer text-xs font-mono",
-                  selectedFile?.path === node.path && "bg-[var(--primary-bg)] text-[var(--primary-text)]"
+                  selectedFile?.path === node.path ? "bg-[#004578] text-[#EEF9FD]" : "hover:bg-[#004578]/50"
                 )}
                 style={{ paddingLeft: `${(depth + 1) * 16}px` }}
                 onClick={() => node.type === 'file' ? setSelectedFile(node) : null}
               >
                 <div className="flex items-center w-full">
                   {node.type === 'dir' ? (
-                    <span title="Directory"><Folder className="w-3 h-3 mr-2 opacity-60 shrink-0" /></span>
+                    <span title="Directory"><Folder className="w-3 h-3 mr-2 opacity-80 text-[#F9F1A5] shrink-0" /></span>
                   ) : (
-                    <span title="Source File"><FileCode className="w-3 h-3 mr-2 opacity-60 shrink-0" /></span>
+                    <span title="Source File"><FileCode className="w-3 h-3 mr-2 opacity-80 shrink-0" /></span>
                   )}
                   <span className="truncate flex-1">{node.name}</span>
-                  {node.gitStatus === 'modified' && <span className="text-[10px] text-blue-500 font-bold ml-2" title="Modified">M</span>}
-                  {node.gitStatus === 'untracked' && <span className="text-[10px] text-green-500 font-bold ml-2" title="Untracked">U</span>}
+                  {node.gitStatus === 'modified' && <span className="text-[10px] text-blue-400 font-bold ml-2" title="Modified">M</span>}
+                  {node.gitStatus === 'untracked' && <span className="text-[10px] text-green-400 font-bold ml-2" title="Untracked">U</span>}
                 </div>
                 {snippet && (
-                  <div className="text-[10px] opacity-60 truncate mt-1 pl-5 italic">
+                  <div className="text-[10px] opacity-60 truncate mt-1 pl-5 italic text-[#F9F1A5]">
                     {snippet}
                   </div>
                 )}
@@ -539,41 +534,41 @@ export default function App() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-screen w-full overflow-hidden bg-[var(--bg-color)]">
+    <div className="flex flex-col md:flex-row h-screen w-full overflow-hidden bg-[#012456] text-[#EEF9FD] font-mono">
       {/* Toast Notification */}
       {toast && (
-        <div className="absolute top-4 right-4 z-50 flex items-center gap-2 px-4 py-3 bg-[var(--primary-bg)] text-[var(--primary-text)] rounded shadow-lg text-sm font-mono animate-in fade-in slide-in-from-top-4">
-          {toast.type === 'error' ? <AlertCircle className="w-4 h-4 text-red-400" /> : <CheckCircle2 className="w-4 h-4 text-green-400" />}
+        <div className="absolute top-4 right-4 z-50 flex items-center gap-2 px-4 py-3 bg-[#000000] text-[#EEF9FD] border border-[#F9F1A5] rounded shadow-lg text-sm font-mono animate-in fade-in slide-in-from-top-4">
+          {toast.type === 'error' ? <AlertCircle className="w-4 h-4 text-red-400" /> : <CheckCircle2 className="w-4 h-4 text-[#F9F1A5]" />}
           {toast.msg}
         </div>
       )}
 
       {/* Sidebar */}
-      <aside className="w-full md:w-72 shrink-0 border-b md:border-b-0 md:border-r border-[var(--border-color)] flex flex-col bg-[var(--bg-color)] h-[40vh] md:h-auto">
-        <div className="p-4 border-b border-[var(--border-color)] flex items-center justify-between shrink-0">
+      <aside className="w-full md:w-72 shrink-0 border-b md:border-b-0 md:border-r border-[#004578] flex flex-col bg-[#012456] h-[40vh] md:h-auto">
+        <div className="p-4 border-b border-[#004578] flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2">
-            <Code2 className="w-5 h-5" />
-            <h1 className="font-serif italic text-lg font-bold tracking-tight">GemCode</h1>
+            <Terminal className="w-5 h-5 text-[#EEF9FD]" />
+            <h1 className="font-mono text-lg font-bold tracking-tight">PowerShell</h1>
           </div>
           <div className="flex items-center gap-3">
-            <Link to="/" className="text-xs font-mono opacity-60 hover:opacity-100 transition-opacity">
+            <Link to="/" className="text-xs opacity-60 hover:opacity-100 hover:text-[#F9F1A5] transition-colors">
               Home
             </Link>
-            <Link to="/powershell" className="text-xs font-mono opacity-60 hover:opacity-100 transition-opacity">
-              PS Mode
+            <Link to="/classic" className="text-xs opacity-60 hover:opacity-100 hover:text-[#F9F1A5] transition-colors">
+              Classic
             </Link>
           </div>
         </div>
         
-        <div className="flex border-b border-[var(--border-color)] shrink-0">
+        <div className="flex border-b border-[#004578] shrink-0">
           <button 
-            className={cn("flex-1 py-2 text-xs font-mono border-r border-[var(--border-color)] transition-colors", activeSidebarTab === 'files' ? "bg-[var(--primary-bg)] text-[var(--primary-text)]" : "hover:bg-[var(--surface-color)]")} 
+            className={cn("flex-1 py-2 text-xs font-mono border-r border-[#004578] transition-colors", activeSidebarTab === 'files' ? "bg-[#004578] text-[#EEF9FD]" : "hover:bg-[#004578]/50")} 
             onClick={() => setActiveSidebarTab('files')}
           >
             Files
           </button>
           <button 
-            className={cn("flex-1 py-2 text-xs font-mono transition-colors", activeSidebarTab === 'tools' ? "bg-[var(--primary-bg)] text-[var(--primary-text)]" : "hover:bg-[var(--surface-color)]")} 
+            className={cn("flex-1 py-2 text-xs font-mono transition-colors", activeSidebarTab === 'tools' ? "bg-[#004578] text-[#EEF9FD]" : "hover:bg-[#004578]/50")} 
             onClick={() => setActiveSidebarTab('tools')}
           >
             Tools
@@ -582,23 +577,23 @@ export default function App() {
 
         {activeSidebarTab === 'files' ? (
           <div className="flex-1 flex flex-col overflow-hidden">
-            <div className="p-4 border-b border-[var(--border-color)] space-y-3 shrink-0">
+            <div className="p-4 border-b border-[#004578] space-y-3 shrink-0">
               {githubToken ? (
                 <div className="space-y-2">
                   <button 
                     onClick={() => fetchGithubRepos(githubToken)}
-                    className="w-full flex items-center justify-center gap-2 py-2 border border-[var(--border-color)] text-xs font-mono hover:bg-[var(--primary-bg)] hover:text-[var(--primary-text)] transition-colors"
+                    className="w-full flex items-center justify-center gap-2 py-2 border border-[#004578] text-xs font-mono hover:bg-[#004578] hover:text-[#EEF9FD] transition-colors"
                   >
                     <Code2 className="w-4 h-4" />
                     Select Repository
                   </button>
                   {showRepoSelect && githubRepos.length > 0 && (
-                    <div className="max-h-32 overflow-y-auto border border-[var(--border-color)] bg-[var(--surface-color)]">
+                    <div className="max-h-32 overflow-y-auto border border-[#004578] bg-[#00183A]">
                       {githubRepos.map(repo => (
                         <button
                           key={repo.id}
                           onClick={() => handleImportGit(repo.html_url)}
-                          className="w-full text-left px-3 py-2 text-xs font-mono hover:bg-[var(--primary-bg)] hover:text-[var(--primary-text)] truncate"
+                          className="w-full text-left px-3 py-2 text-xs font-mono hover:bg-[#004578] hover:text-[#EEF9FD] truncate"
                         >
                           {repo.full_name}
                         </button>
@@ -609,18 +604,18 @@ export default function App() {
               ) : (
                 <button 
                   onClick={handleConnectGithub}
-                  className="w-full flex items-center justify-center gap-2 py-2 border border-[var(--border-color)] text-xs font-mono hover:bg-[var(--primary-bg)] hover:text-[var(--primary-text)] transition-colors"
+                  className="w-full flex items-center justify-center gap-2 py-2 border border-[#004578] text-xs font-mono hover:bg-[#004578] hover:text-[#EEF9FD] transition-colors"
                 >
                   <Code2 className="w-4 h-4" />
                   Connect GitHub
                 </button>
               )}
               <div className="relative">
-                <Github className="absolute left-2 top-2.5 w-4 h-4 opacity-40" />
+                <Github className="absolute left-2 top-2.5 w-4 h-4 opacity-60" />
                 <input 
                   type="text"
                   placeholder="Or paste GitHub Repo URL"
-                  className="w-full pl-8 pr-4 py-2 bg-transparent border border-[var(--border-color)] text-xs font-mono focus:outline-none focus:ring-1 focus:ring-[var(--border-color)]"
+                  className="w-full pl-8 pr-4 py-2 bg-[#00183A] border border-[#004578] text-xs font-mono focus:outline-none focus:border-[#F9F1A5]"
                   value={gitUrl}
                   onChange={(e) => setGitUrl(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleImportGit()}
@@ -628,46 +623,46 @@ export default function App() {
                 <button 
                   onClick={() => handleImportGit()}
                   disabled={isImporting}
-                  className="absolute right-1 top-1 p-1.5 hover:bg-[var(--primary-bg)] hover:text-[var(--primary-text)] transition-colors disabled:opacity-50"
+                  className="absolute right-1 top-1 p-1.5 hover:bg-[#004578] transition-colors disabled:opacity-50"
                 >
                   {isImporting ? <Loader2 className="w-3 h-3 animate-spin" /> : <Search className="w-3 h-3" />}
                 </button>
               </div>
 
-              <label className="flex items-center justify-center gap-2 w-full py-2 border border-[var(--border-color)] border-dashed text-xs font-mono cursor-pointer hover:bg-[var(--primary-bg)] hover:text-[var(--primary-text)] transition-colors">
+              <label className="flex items-center justify-center gap-2 w-full py-2 border border-[#004578] border-dashed text-xs font-mono cursor-pointer hover:bg-[#004578] transition-colors">
                 <Upload className="w-3 h-3" />
                 Local Files
                 <input type="file" multiple className="hidden" onChange={handleFileUpload} />
               </label>
 
               <div className="relative flex items-center">
-                <Search className="absolute left-2 w-4 h-4 opacity-40" />
-                  <input 
-                    type="text"
-                    placeholder="Search files and content..."
-                    className="w-full pl-8 pr-8 py-2 bg-transparent border border-[var(--border-color)] text-xs font-mono focus:outline-none focus:ring-1 focus:ring-[var(--border-color)]"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                  <button 
-                    onClick={() => setUseRegex(!useRegex)} 
-                    className={cn(
-                      "absolute right-2 p-1 text-[10px] font-bold rounded transition-colors", 
-                      useRegex ? "bg-[var(--primary-bg)] text-[var(--primary-text)]" : "opacity-40 hover:opacity-100"
-                    )}
-                    title="Use Regular Expression"
-                  >
-                    .*
-                  </button>
+                <Search className="absolute left-2 w-4 h-4 opacity-60" />
+                <input 
+                  type="text"
+                  placeholder="Search files and content..."
+                  className="w-full pl-8 pr-8 py-2 bg-[#00183A] border border-[#004578] text-xs font-mono focus:outline-none focus:border-[#F9F1A5]"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                <button 
+                  onClick={() => setUseRegex(!useRegex)} 
+                  className={cn(
+                    "absolute right-2 p-1 text-[10px] font-bold rounded transition-colors", 
+                    useRegex ? "bg-[#004578] text-[#EEF9FD]" : "opacity-60 hover:opacity-100 hover:text-[#F9F1A5]"
+                  )}
+                  title="Use Regular Expression"
+                >
+                  .*
+                </button>
               </div>
             </div>
 
             <div className="flex-1 overflow-y-auto">
-              <div className="p-2 border-b border-[var(--border-color)] bg-[var(--surface-color)] sticky top-0 z-10">
-                <span className="col-header px-2">Explorer</span>
+              <div className="p-2 border-b border-[#004578] bg-[#00183A] sticky top-0 z-10">
+                <span className="text-xs font-bold px-2 text-[#F9F1A5]">PS C:\Explorer&gt;</span>
               </div>
               {files.length === 0 ? (
-                <div className="p-8 text-center opacity-40 flex flex-col items-center gap-2">
+                <div className="p-8 text-center opacity-60 flex flex-col items-center gap-2">
                   <Terminal className="w-8 h-8" />
                   <p className="text-[10px] font-mono uppercase tracking-widest">No files</p>
                 </div>
@@ -676,9 +671,9 @@ export default function App() {
               )}
             </div>
 
-            <div className="p-3 border-t border-[var(--border-color)] bg-[var(--surface-color)] flex items-center justify-between shrink-0">
-              <span className="text-[10px] font-mono opacity-60">{files.length} items</span>
-              <button onClick={() => setFiles([])} className="hover:text-red-500 transition-colors">
+            <div className="p-3 border-t border-[#004578] bg-[#00183A] flex items-center justify-between shrink-0">
+              <span className="text-[10px] font-mono opacity-80">{files.length} items</span>
+              <button onClick={() => setFiles([])} className="hover:text-red-400 transition-colors">
                 <Trash2 className="w-3 h-3" />
               </button>
             </div>
@@ -689,7 +684,7 @@ export default function App() {
               <button 
                 onClick={handleAnalyze}
                 disabled={isLoading || !selectedFile}
-                className="flex items-center justify-center gap-2 py-2 border border-[var(--border-color)] text-xs font-mono hover:bg-[var(--primary-bg)] hover:text-[var(--primary-text)] transition-colors disabled:opacity-50"
+                className="flex items-center justify-center gap-2 py-2 border border-[#004578] bg-[#00183A] text-xs font-mono hover:bg-[#004578] transition-colors disabled:opacity-50"
               >
                 <Activity className="w-4 h-4" />
                 Analyze Code
@@ -697,7 +692,7 @@ export default function App() {
               <button 
                 onClick={handleExplain}
                 disabled={isLoading}
-                className="flex items-center justify-center gap-2 py-2 border border-[var(--border-color)] text-xs font-mono hover:bg-[var(--primary-bg)] hover:text-[var(--primary-text)] transition-colors disabled:opacity-50"
+                className="flex items-center justify-center gap-2 py-2 border border-[#004578] bg-[#00183A] text-xs font-mono hover:bg-[#004578] transition-colors disabled:opacity-50"
               >
                 <Search className="w-4 h-4" />
                 Explain Code
@@ -705,7 +700,7 @@ export default function App() {
               <button 
                 onClick={handleRefactor}
                 disabled={isLoading || !selectedFile}
-                className="flex items-center justify-center gap-2 py-2 border border-[var(--border-color)] text-xs font-mono hover:bg-[var(--primary-bg)] hover:text-[var(--primary-text)] transition-colors disabled:opacity-50"
+                className="flex items-center justify-center gap-2 py-2 border border-[#004578] bg-[#00183A] text-xs font-mono hover:bg-[#004578] transition-colors disabled:opacity-50"
               >
                 <Code2 className="w-4 h-4" />
                 Refactor
@@ -713,7 +708,7 @@ export default function App() {
               <button 
                 onClick={() => handleGitGuide("Manage branches: create, list, switch, delete")}
                 disabled={isLoading}
-                className="flex items-center justify-center gap-2 py-2 border border-[var(--border-color)] text-xs font-mono hover:bg-[var(--primary-bg)] hover:text-[var(--primary-text)] transition-colors disabled:opacity-50"
+                className="flex items-center justify-center gap-2 py-2 border border-[#004578] bg-[#00183A] text-xs font-mono hover:bg-[#004578] transition-colors disabled:opacity-50"
               >
                 <GitBranch className="w-4 h-4" />
                 Branching Guide
@@ -721,7 +716,7 @@ export default function App() {
               <button 
                 onClick={() => handleGitGuide("Stage changes and commit with a descriptive message")}
                 disabled={isLoading}
-                className="flex items-center justify-center gap-2 py-2 border border-[var(--border-color)] text-xs font-mono hover:bg-[var(--primary-bg)] hover:text-[var(--primary-text)] transition-colors disabled:opacity-50"
+                className="flex items-center justify-center gap-2 py-2 border border-[#004578] bg-[#00183A] text-xs font-mono hover:bg-[#004578] transition-colors disabled:opacity-50"
               >
                 <GitCommit className="w-4 h-4" />
                 Commit Guide
@@ -729,27 +724,27 @@ export default function App() {
               <button 
                 onClick={() => handleGitGuide("Resolve merge conflicts")}
                 disabled={isLoading}
-                className="flex items-center justify-center gap-2 py-2 border border-[var(--border-color)] text-xs font-mono hover:bg-[var(--primary-bg)] hover:text-[var(--primary-text)] transition-colors disabled:opacity-50"
+                className="flex items-center justify-center gap-2 py-2 border border-[#004578] bg-[#00183A] text-xs font-mono hover:bg-[#004578] transition-colors disabled:opacity-50"
               >
                 <GitMerge className="w-4 h-4" />
                 Resolve Conflicts
               </button>
             </div>
 
-            <div className="mt-6 border-t border-[var(--border-color)] pt-4">
-              <h3 className="text-xs font-bold mb-3 uppercase tracking-widest opacity-60">Snippets</h3>
+            <div className="mt-6 border-t border-[#004578] pt-4">
+              <h3 className="text-xs font-bold mb-3 uppercase tracking-widest opacity-80 text-[#F9F1A5]">Snippets</h3>
               <div className="space-y-2 mb-4">
                 {snippets.map((s, i) => (
-                  <div key={i} className="flex items-center justify-between p-2 border border-[var(--border-color)] bg-[var(--surface-color)]">
+                  <div key={i} className="flex items-center justify-between p-2 border border-[#004578] bg-[#00183A]">
                     <span className="text-xs font-mono truncate flex-1">{s.name}</span>
                     <div className="flex items-center gap-1">
                       <button onClick={() => {
                         const blob = new Blob([s.code], { type: 'text/plain;charset=utf-8' });
                         saveAs(blob, `${s.name.replace(/\s+/g, '_')}.txt`);
-                      }} className="p-1 hover:bg-[var(--primary-bg)] hover:text-[var(--primary-text)] transition-colors" title="Export Snippet">
+                      }} className="p-1 hover:bg-[#004578] hover:text-[#EEF9FD] transition-colors" title="Export Snippet">
                         <Download className="w-3 h-3" />
                       </button>
-                      <button onClick={() => insertSnippet(s.code)} className="p-1 hover:bg-[var(--primary-bg)] hover:text-[var(--primary-text)] transition-colors" title="Insert Snippet">
+                      <button onClick={() => insertSnippet(s.code)} className="p-1 hover:bg-[#004578] hover:text-[#F9F1A5] transition-colors" title="Insert Snippet">
                         <Plus className="w-3 h-3" />
                       </button>
                     </div>
@@ -757,9 +752,9 @@ export default function App() {
                 ))}
               </div>
               <div className="space-y-2">
-                <input type="text" placeholder="Snippet Name" className="w-full px-2 py-1.5 bg-transparent border border-[var(--border-color)] font-mono text-xs focus:outline-none" value={newSnippetName} onChange={e => setNewSnippetName(e.target.value)} />
-                <textarea placeholder="Snippet Code" className="w-full px-2 py-1.5 bg-transparent border border-[var(--border-color)] font-mono text-xs focus:outline-none resize-none h-20" value={newSnippetCode} onChange={e => setNewSnippetCode(e.target.value)} />
-                <button onClick={handleSaveSnippet} className="w-full flex items-center justify-center gap-2 py-1.5 bg-[var(--primary-bg)] text-[var(--primary-text)] font-mono text-xs hover:opacity-90 transition-opacity">
+                <input type="text" placeholder="Snippet Name" className="w-full px-2 py-1.5 bg-[#00183A] border border-[#004578] font-mono text-xs focus:outline-none focus:border-[#F9F1A5]" value={newSnippetName} onChange={e => setNewSnippetName(e.target.value)} />
+                <textarea placeholder="Snippet Code" className="w-full px-2 py-1.5 bg-[#00183A] border border-[#004578] font-mono text-xs focus:outline-none focus:border-[#F9F1A5] resize-none h-20" value={newSnippetCode} onChange={e => setNewSnippetCode(e.target.value)} />
+                <button onClick={handleSaveSnippet} className="w-full flex items-center justify-center gap-2 py-1.5 border border-[#004578] bg-[#00183A] text-[#EEF9FD] font-mono text-xs hover:bg-[#004578] transition-colors">
                   <Save className="w-3 h-3" /> Save Snippet
                 </button>
               </div>
@@ -769,24 +764,24 @@ export default function App() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col min-w-0 relative bg-[var(--bg-color)]">
-        <div className="flex border-b border-[var(--border-color)] bg-[var(--surface-color)] shrink-0 overflow-x-auto">
+      <main className="flex-1 flex flex-col min-w-0 relative bg-[#012456]">
+        <div className="flex border-b border-[#004578] bg-[#00183A] shrink-0 overflow-x-auto">
           <button 
-            className={cn("px-4 md:px-6 py-2 text-xs font-mono border-r border-[var(--border-color)] transition-colors flex items-center gap-2 whitespace-nowrap", activeMainTab === 'terminal' ? "bg-[var(--primary-bg)] text-[var(--primary-text)]" : "hover:bg-[var(--bg-color)]")} 
+            className={cn("px-4 md:px-6 py-2 text-xs font-mono border-r border-[#004578] transition-colors flex items-center gap-2 whitespace-nowrap", activeMainTab === 'terminal' ? "bg-[#004578] text-[#EEF9FD]" : "hover:bg-[#004578]/50")} 
             onClick={() => setActiveMainTab('terminal')}
           >
             <Terminal className="w-3 h-3" />
             Terminal
           </button>
           <button 
-            className={cn("px-4 md:px-6 py-2 text-xs font-mono border-r border-[var(--border-color)] transition-colors flex items-center gap-2 whitespace-nowrap", activeMainTab === 'editor' ? "bg-[var(--primary-bg)] text-[var(--primary-text)]" : "hover:bg-[var(--bg-color)]")} 
+            className={cn("px-4 md:px-6 py-2 text-xs font-mono border-r border-[#004578] transition-colors flex items-center gap-2 whitespace-nowrap", activeMainTab === 'editor' ? "bg-[#004578] text-[#EEF9FD]" : "hover:bg-[#004578]/50")} 
             onClick={() => setActiveMainTab('editor')}
           >
             <FileCode className="w-3 h-3" />
             Editor
           </button>
           <button 
-            className={cn("px-4 md:px-6 py-2 text-xs font-mono border-r border-[var(--border-color)] transition-colors flex items-center gap-2 whitespace-nowrap", activeMainTab === 'preview' ? "bg-[var(--primary-bg)] text-[var(--primary-text)]" : "hover:bg-[var(--bg-color)]")} 
+            className={cn("px-4 md:px-6 py-2 text-xs font-mono border-r border-[#004578] transition-colors flex items-center gap-2 whitespace-nowrap", activeMainTab === 'preview' ? "bg-[#004578] text-[#EEF9FD]" : "hover:bg-[#004578]/50")} 
             onClick={() => setActiveMainTab('preview')}
           >
             <LayoutTemplate className="w-3 h-3" />
@@ -796,10 +791,10 @@ export default function App() {
 
         {activeMainTab === 'editor' && (
           <div className="flex-1 flex flex-col overflow-hidden">
-            <div className="h-10 border-b border-[var(--border-color)] flex items-center px-4 bg-[var(--surface-color)] justify-between shrink-0">
+            <div className="h-10 border-b border-[#004578] flex items-center px-4 bg-[#00183A] justify-between shrink-0">
               <div className="flex items-center gap-2 overflow-hidden">
-                <span className="text-xs font-mono truncate">
-                  {selectedFile?.path || 'Select a file to view'}
+                <span className="text-xs font-mono truncate text-[#F9F1A5]">
+                  PS C:\Editor&gt; {selectedFile?.path || 'Select a file to view'}
                 </span>
               </div>
               <div className="flex items-center gap-2 shrink-0 ml-2">
@@ -810,7 +805,7 @@ export default function App() {
                         const blob = new Blob([diffModified], { type: 'text/plain;charset=utf-8' });
                         saveAs(blob, `refactored_${selectedFile?.name}`);
                       }}
-                      className="flex items-center gap-1.5 px-2 py-1 text-[10px] font-mono border border-[var(--border-color)] hover:bg-[var(--primary-bg)] hover:text-[var(--primary-text)] transition-colors"
+                      className="flex items-center gap-1.5 px-2 py-1 text-[10px] font-mono border border-[#004578] hover:bg-[#004578] hover:text-[#EEF9FD] transition-colors"
                       title="Export Refactored Code"
                     >
                       <Download className="w-3 h-3" />
@@ -818,7 +813,7 @@ export default function App() {
                     </button>
                     <button 
                       onClick={applyRefactor}
-                      className="flex items-center gap-1.5 px-2 py-1 text-[10px] font-mono border border-[var(--border-color)] hover:bg-[var(--primary-bg)] hover:text-[var(--primary-text)] transition-colors"
+                      className="flex items-center gap-1.5 px-2 py-1 text-[10px] font-mono border border-[#004578] hover:bg-[#004578] hover:text-[#EEF9FD] transition-colors"
                     >
                       <Check className="w-3 h-3" />
                       Apply
@@ -829,8 +824,8 @@ export default function App() {
                   <button 
                     onClick={() => setShowDiff(!showDiff)}
                     className={cn(
-                      "flex items-center gap-1.5 px-2 py-1 text-[10px] font-mono border border-[var(--border-color)] transition-colors",
-                      showDiff ? "bg-[var(--primary-bg)] text-[var(--primary-text)]" : "hover:bg-[var(--primary-bg)] hover:text-[var(--primary-text)]"
+                      "flex items-center gap-1.5 px-2 py-1 text-[10px] font-mono border border-[#004578] transition-colors",
+                      showDiff ? "bg-[#004578] text-[#EEF9FD]" : "hover:bg-[#004578] hover:text-[#EEF9FD]"
                     )}
                   >
                     <FileDiff className="w-3 h-3" />
@@ -841,8 +836,8 @@ export default function App() {
                   <button 
                     onClick={() => setIsEditing(!isEditing)}
                     className={cn(
-                      "flex items-center gap-1.5 px-2 py-1 text-[10px] font-mono border border-[var(--border-color)] transition-colors",
-                      isEditing ? "bg-[var(--primary-bg)] text-[var(--primary-text)]" : "hover:bg-[var(--primary-bg)] hover:text-[var(--primary-text)]"
+                      "flex items-center gap-1.5 px-2 py-1 text-[10px] font-mono border border-[#004578] transition-colors",
+                      isEditing ? "bg-[#004578] text-[#EEF9FD]" : "hover:bg-[#004578] hover:text-[#EEF9FD]"
                     )}
                   >
                     <Edit3 className="w-3 h-3" />
@@ -850,13 +845,13 @@ export default function App() {
                   </button>
                 )}
                 {selectedFile && (
-                  <button className="p-1 hover:bg-[var(--primary-bg)] hover:text-[var(--primary-text)] transition-colors rounded">
+                  <button className="p-1 hover:bg-[#004578] transition-colors rounded">
                     <Download className="w-4 h-4" />
                   </button>
                 )}
               </div>
             </div>
-            <div className="flex-1 overflow-auto bg-[#1e1e1e] relative">
+            <div className="flex-1 overflow-auto bg-[#012456] relative">
               {showDiff && diffModified ? (
                 <div className="absolute inset-0 bg-white overflow-auto">
                    <ReactDiffViewer 
@@ -867,9 +862,9 @@ export default function App() {
                       styles={{
                         variables: {
                           dark: {
-                            diffViewerBackground: '#1e1e1e',
-                            diffViewerColor: '#d4d4d4',
-                            addedBackground: '#2ea04326',
+                            diffViewerBackground: '#012456',
+                            diffViewerColor: '#EEF9FD',
+                            addedBackground: '#004578',
                             addedColor: 'white',
                             removedBackground: '#f8514926',
                             removedColor: 'white',
@@ -884,21 +879,21 @@ export default function App() {
                 <textarea
                   value={selectedFile.content || ''}
                   onChange={(e) => updateFileContent(selectedFile.path, e.target.value)}
-                  className="w-full h-full bg-[#1e1e1e] text-[#d4d4d4] font-mono text-[13px] p-5 focus:outline-none resize-none"
+                  className="w-full h-full bg-[#012456] text-[#EEF9FD] font-mono text-[13px] p-5 focus:outline-none resize-none"
                   spellCheck={false}
                 />
               ) : selectedFile ? (
                 <SyntaxHighlighter 
                   language={selectedFile.name.split('.').pop() || 'javascript'} 
                   style={vscDarkPlus}
-                  customStyle={{ margin: 0, padding: '20px', fontSize: '13px', fontFamily: 'var(--font-mono)' }}
+                  customStyle={{ margin: 0, padding: '20px', fontSize: '13px', fontFamily: 'var(--font-mono)', background: 'transparent' }}
                 >
                   {selectedFile.content || ''}
                 </SyntaxHighlighter>
               ) : (
-                <div className="h-full flex items-center justify-center opacity-20 flex-col gap-4">
+                <div className="h-full flex items-center justify-center opacity-40 flex-col gap-4">
                   <Code2 className="w-16 h-16" />
-                  <p className="font-serif italic text-xl">Import code to begin analysis</p>
+                  <p className="font-mono text-xl">Import code to begin analysis</p>
                 </div>
               )}
             </div>
@@ -907,55 +902,60 @@ export default function App() {
 
         {activeMainTab === 'terminal' && (
           <div className="flex-1 flex flex-col overflow-hidden">
-            <div className="h-10 border-b border-[var(--border-color)] flex items-center justify-between px-4 bg-[var(--surface-color)] shrink-0">
-              <span className="col-header">GemCode Terminal</span>
+            <div className="h-10 border-b border-[#004578] flex items-center justify-between px-4 bg-[#00183A] shrink-0">
+              <span className="text-xs font-bold text-[#F9F1A5]">Windows PowerShell</span>
               <button 
                 onClick={handleExportChat}
-                className="flex items-center gap-1.5 text-[10px] font-mono opacity-60 hover:opacity-100 transition-opacity"
+                className="flex items-center gap-1.5 text-[10px] font-mono opacity-80 hover:opacity-100 hover:text-[#F9F1A5] transition-colors"
               >
                 <Download className="w-3 h-3" />
                 Export Chat
               </button>
             </div>
             
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 font-mono">
+              <div className="text-xs opacity-80 mb-6">
+                Windows PowerShell<br/>
+                Copyright (C) Microsoft Corporation. All rights reserved.<br/><br/>
+                Try the new cross-platform PowerShell https://aka.ms/pscore6
+              </div>
+              
               {messages.length === 0 && (
-                <div className="text-center py-8 opacity-40 font-mono text-xs">
-                  Ask GemCode about the imported codebase...
+                <div className="text-xs">
+                  <span className="text-[#F9F1A5]">PS C:\Users\GemCode&gt;</span> _
                 </div>
               )}
               {messages.map((msg, i) => (
-                <div key={i} className={cn(
-                  "flex flex-col max-w-[85%]",
-                  msg.role === 'user' ? "ml-auto items-end" : "items-start"
-                )}>
-                  <div className={cn(
-                    "px-4 py-2 rounded-lg text-sm",
-                    msg.role === 'user' 
-                      ? "bg-[var(--primary-bg)] text-[var(--primary-text)]" 
-                      : "bg-[var(--surface-color)] border border-[var(--border-color)] text-[var(--text-color)]"
-                  )}>
-                    <div className="markdown-body">
-                      <Markdown>{msg.text}</Markdown>
+                <div key={i} className="flex flex-col">
+                  {msg.role === 'user' ? (
+                    <div className="text-sm mb-2">
+                      <span className="text-[#F9F1A5]">PS C:\Users\GemCode&gt;</span> {msg.text}
                     </div>
-                  </div>
+                  ) : (
+                    <div className="text-sm mb-4 opacity-90 pl-4 border-l-2 border-[#004578]">
+                      <div className="markdown-body text-[#EEF9FD]">
+                        <Markdown>{msg.text}</Markdown>
+                      </div>
+                    </div>
+                  )}
                 </div>
               ))}
               {isLoading && (
-                <div className="flex items-center gap-2 text-xs font-mono opacity-60">
+                <div className="flex items-center gap-2 text-xs opacity-80">
                   <Loader2 className="w-3 h-3 animate-spin" />
-                  GemCode is thinking...
+                  Executing...
                 </div>
               )}
               <div ref={chatEndRef} />
             </div>
 
-            <div className="p-4 border-t border-[var(--border-color)] shrink-0">
+            <div className="p-4 border-t border-[#004578] shrink-0 bg-[#00183A]">
               <div className="relative flex items-center">
+                <span className="absolute left-4 text-[#F9F1A5] text-sm font-bold">PS&gt;</span>
                 <input 
                   type="text"
-                  placeholder={isLoading ? "GemCode is thinking..." : "Type a command or question... (Use ↑/↓ for history)"}
-                  className="w-full pl-4 pr-12 py-3 bg-transparent border border-[var(--border-color)] text-sm font-mono focus:outline-none disabled:opacity-50"
+                  placeholder={isLoading ? "Executing..." : "Type a command... (Use ↑/↓ for history)"}
+                  className="w-full pl-12 pr-12 py-3 bg-transparent border border-[#004578] text-sm font-mono focus:outline-none focus:border-[#F9F1A5] disabled:opacity-50"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
@@ -964,7 +964,7 @@ export default function App() {
                 <button 
                   onClick={handleSendMessage}
                   disabled={isLoading || !input.trim()}
-                  className="absolute right-2 p-2 hover:bg-[var(--primary-bg)] hover:text-[var(--primary-text)] transition-colors disabled:opacity-20"
+                  className="absolute right-2 p-2 hover:bg-[#004578] transition-colors disabled:opacity-20"
                 >
                   {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                 </button>
@@ -975,8 +975,8 @@ export default function App() {
 
         {activeMainTab === 'preview' && (
           <div className="flex-1 flex flex-col overflow-hidden bg-white">
-            <div className="h-10 border-b border-[var(--border-color)] flex items-center px-4 bg-[var(--surface-color)] shrink-0">
-              <span className="col-header">App Preview (index.html)</span>
+            <div className="h-10 border-b border-[#004578] flex items-center px-4 bg-[#00183A] shrink-0">
+              <span className="text-xs font-bold text-[#F9F1A5]">PS C:\Preview&gt; index.html</span>
             </div>
             <div className="flex-1 relative">
               {getPreviewUrl() ? (
@@ -987,9 +987,9 @@ export default function App() {
                   sandbox="allow-scripts allow-same-origin"
                 />
               ) : (
-                <div className="h-full flex items-center justify-center opacity-40 flex-col gap-4 bg-[var(--bg-color)]">
+                <div className="h-full flex items-center justify-center opacity-60 flex-col gap-4 bg-[#012456]">
                   <LayoutTemplate className="w-16 h-16" />
-                  <p className="font-serif italic text-xl">No index.html found in workspace to preview.</p>
+                  <p className="font-mono text-xl">No index.html found in workspace to preview.</p>
                 </div>
               )}
             </div>
