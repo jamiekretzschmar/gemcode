@@ -25,12 +25,12 @@
 }
 
 [data-theme="colorful"] {
-  --bg-color: #1e1b4b;
-  --text-color: #f3e8ff;
-  --border-color: #4c1d95;
-  --surface-color: #2e1065;
-  --primary-bg: #8b5cf6;
-  --primary-text: #ffffff;
+  --bg-color: #406244;      /* Muted Green */
+  --text-color: #000000;    /* Black */
+  --border-color: #dab71f;  /* Muted Yellow/Mustard */
+  --surface-color: #d8832b; /* Muted Orange/Terracotta */
+  --primary-bg: #c94d4d;    /* Muted Red/Dusty Rose */
+  --primary-text: #ffffff;  /* White */
 }
 
 @layer base {
@@ -102,5 +102,24 @@
 
 .markdown-body a {
   @apply underline underline-offset-2 hover:text-blue-600 transition-colors;
+}
+
+/* Ensure the app can scroll on Android */
+html, body {
+  height: auto;
+  min-height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* Makes scrolling feel smooth like a native app */
+}
+
+/* Optional: Prevent text selection highlighting on buttons (feels more like an app) */
+* {
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+/* Allow text selection only in terminal/code areas */
+pre, code, input, textarea {
+  user-select: text;
 }
 
