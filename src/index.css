@@ -104,12 +104,22 @@
   @apply underline underline-offset-2 hover:text-blue-600 transition-colors;
 }
 
-/* Ensure the app can scroll on Android */
 html, body {
+  /* This prevents the horizontal "wiggle" */
+  overflow-x: hidden;
+  max-width: 100vw;
+  position: relative;
+  
+  /* Keep the vertical scrolling we just enabled */
+  overflow-y: auto;
   height: auto;
   min-height: 100%;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch; /* Makes scrolling feel smooth like a native app */
+}
+
+/* Force all images and code blocks to stay within the screen bounds */
+img, pre, code, table {
+  max-width: 100%;
+  overflow-x: auto; /* If code is too long, only the code block scrolls, not the whole app */
 }
 
 /* Optional: Prevent text selection highlighting on buttons (feels more like an app) */
