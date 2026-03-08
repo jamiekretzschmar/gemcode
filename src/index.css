@@ -133,3 +133,25 @@ pre, code, input, textarea {
   user-select: text;
 }
 
+/* Combined Fix: Enable text selection + Force wrapping + Max width */
+pre, code {
+  user-select: text;           /* Allows you to copy code on your phone */
+  white-space: pre-wrap;       /* Stops code from bleeding off the right edge */
+  word-wrap: break-word;      /* Forces long strings to break */
+  max-width: 100%;             /* Keeps the container inside the screen */
+  overflow-x: hidden;          /* Double-locks against horizontal scrolling */
+}
+
+/* Form inputs still need text selection enabled */
+input, textarea {
+  user-select: text;
+}
+
+/* Root container lock */
+#root {
+  max-width: 100vw;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
