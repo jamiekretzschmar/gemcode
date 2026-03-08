@@ -4,8 +4,7 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch: # This allows you to trigger a build manually from the GitHub website
-
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
