@@ -45,8 +45,8 @@ import { Link } from 'react-router-dom';
 
 const gemini = new GeminiService();
 
-const MAX_FILE_SIZE = 500 * 1024; // 500KB
-const MAX_REPO_FILES = 100;
+const MAX_FILE_SIZE = 2 * 1024 * 1024; // Bump to 2MB per file
+const MAX_REPO_FILES = 500; // Bump to 500 files total
 const BINARY_EXTS = ['png', 'jpg', 'jpeg', 'gif', 'ico', 'pdf', 'zip', 'tar', 'gz', 'mp4', 'mp3', 'woff', 'woff2', 'ttf', 'eot'];
 
 export default function App() {
