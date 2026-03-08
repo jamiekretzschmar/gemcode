@@ -23,7 +23,11 @@ jobs:
         run: npm install
 
       - name: Build Vite Frontend
-        run: npm run build
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          echo "GEMINI_API_KEY=$GEMINI_API_KEY" >> .env
+          npm run build
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -32,7 +36,10 @@ jobs:
           java-version: '17'
 
       - name: Sync Capacitor
-        run: npx cap sync android
+        run: |
+          npm install -g @capacitor/cli
+          npx cap sync android
+
 
       - name: Build the APK
         run: |
