@@ -17,7 +17,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Install NPM Dependencies
         run: npm install
@@ -35,10 +35,11 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Sync Capacitor
-        run: |
-          npm install -g @capacitor/cli
-          npx cap sync android
+  - name: Sync Capacitor
+    run: |
+      ls -R android/app/src/main/res # This verifies the folder actually exists
+      npm install -g @capacitor/cli
+      npx cap sync android
 
 
       - name: Build the APK
